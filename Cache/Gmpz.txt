@@ -1,0 +1,32 @@
+  # Cuántas personas infectadas (confirmadas), habrá al final de la epidemia?
+  Nmax   <- round(alfa*hab)
+  names(Nmax) <- NULL
+  dfdato$CasosTotales <- Nmax
+  # En que día se estima el pico de la epidemia?
+  tmax   <- log(beta)/kapa
+  names(tmax) <- NULL
+  # En que fecha?
+  fmax   <- tiempo[1] + round(tmax)
+  names(fmax) <- NULL
+  # Cuál será la incidencia de casos en el día del máximo (tmax)?
+  aux    <- alfa*exp(-beta*exp(-kapa*tmax))
+  ctmax  <- round( hab*beta*kapa*exp(-kapa*tmax)*aux )
+  names(ctmax) <- NULL
+  # Cuántos casos acumulados habrá hasta el pico? (aux previa)
+  casosAP <- round( hab*alfa*exp(-beta*exp(-kapa*tmax)) )
+  names(casosAP) <- NULL
+  dfdato$CasosAcumPico <- casosAP
+  # Cuántos casos ocurrirán entre el pico y una semana antes del pico?
+  casos1S <- hab*alfa*( exp(-beta*exp(-kapa*tmax))-exp(-beta*exp(-kapa*(tmax-7))) )
+  casos1S <- round(casos1S)  
+  names(casos1S) <- NULL
+  dfdato$CasosAcum1SyPico <- casos1S
+  # Cuánto durará la epidemia? : == Cuándo se llega al 95% del máximo total? 
+  cota   <- 0.95
+  tdura  <- round(-log(-log(cota)/beta)/kapa)
+  names(tdura) <- NULL
+  fdura  <- tiempo[1] + tdura
+  names(fdura) <- NULL
+  # Tasa de casos confirmados por millón de hab
+  casosPM <- round( tail(casosa,1)/(hab/10), 1 )
+  dfdato$CasosPorMillon <- casosPM

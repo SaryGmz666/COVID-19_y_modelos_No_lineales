@@ -1,0 +1,16 @@
+Despues de contrastar los modelos con los respectivos datos de cada uno de los paises, podemos concluir particularmente para cada uno de ellos. En el caso de México el modelo Gompertz es el que tiene un mayor desempeño con un $MSE = 4929030$ a comparacion del modelo Logistico que arrojo un $MSE= 49934247$ y el modelo Normal con un $MSE=8537168$. 
+
+En Egipto es notorio que del inicio de la pandemia al pico tuvo un crecimiento acelerado, llega al pico y el decenso es semejante al acenso; por tanto es razonable el resultado, el modelo que tiene el mejor desempeño es el modelo Logistico con un $MSE = 277487$ a comparacion del Gompertz con un $MSE = 4512989$ y el Normal con $MSE = 931420.8$, pero es importante recalcar que le modelo Normal tambien es aceptable para los datos, esto es por la naturaleza de ambos modelos que son simetricos.
+
+En Rusia el modelo que tuvo el mejor desempeño, es el Gompertz con un $MSE = 12384.46 $ a comparacion del logistico con un $MSE = 27771.95$ y del normal con $MSE = 22894.85$; es importante observar que aunque el modelo Gompertz tiene un buen desempeño habria que buscar algun otro modelo que tenga un decenso mas lento que el Gompertz.
+
+
+
+
+
+
+Mexico		Gompertz
+Egipto		Logistico
+Rusia		Gompertz
+Brasil		Gompertz
+Alemania	Gompertz

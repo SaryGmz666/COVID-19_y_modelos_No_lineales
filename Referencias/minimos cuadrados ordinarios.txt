@@ -1,0 +1,24 @@
+NEWTON RAMPSON
+metodo delta importante es semejante a boostrap
+
+Debido a que el problema es estimar el vector desconocido θ, una solución natural es elegir el valor de θ que minimiza las distancias entre los valores de f(x,θ) y las observaciones de Y. Por ejemplo, uno puede elegir el valor de θ que minimiza la suma de cuadrados C(θ) deﬁned por
+
+Sea θ este valor. θ es el estimador de mínimos cuadrados de θ. Si asumimos que Var(εij)=σ2, una estimación de σ2 se obtiene como
+
+Bajo los supuestos expuestos en el párrafo anterior, θ es también la solución del conjunto de ecuaciones p:
+
+para un =1,...p, donde f/ θa es la derivada parcial de f con respecto a θa. Debido a que f es no lineal en θ, no se puede calcular ninguna solución explícita. En cambio, se necesita un procedimiento iterativo. 
+
+El estimador de mínimos cuadrados de θ es también el estimador de máxima verosimilitud en el caso de las observaciones gaussianas. Recordar las principales características del método de máxima verosimilitud. Sea Y una variable aleatoria distribuida como una variable gaussiana con expectativa f(x,θ) y varianza σ2. La densidad de probabilidad de Y en el punto y es deﬁned como sigue:
+
+Observamos n = k i=1 ni variables gaussianas independientes Yij,j=1,...n i,i=1,...k con expectativa E(Yij)=f(xi,θ) y varianza Var(Yij)=σ2. La densidad de probabilidad de las observaciones calculada en yij,j =1,...n i,i=1,...k es igual a la siguiente fórmula:
+
+La probabilidad es una variable aleatoria deﬁned como la densidad de probabilidad calculada en las observaciones:
+
+Los estimadores de máxima verosimilitud para θ y σ2 son aquellos valores que maximizan la probabilidad, o equivalentes, de su logaritmo:
+
+Está claro que maximizar V (θ,σ2) en θ es equivalente a minimizar C(θ). El estimador de máxima verosimilitud de σ2 satisfará que la derivada de V (θ,σ2) con respecto a σ2 es igual a 0. A saber, obtenemos lo siguiente:
+
+lleva a la ecuación (1.11). En cuanto a las varianzas heterogéneas(Var(εij)=σ2 i ), es natural que las observaciones con pequeñas varianzas se hagan ponderando la suma de cuadrados. Los σ2 i son desconocidos, por lo que deben ser reemplazados por una estimación. Si cada ni es lo suficientemente grande, digamos 4, como en el Ejemplo 1.1.2, entonces σ2 i se puede estimar en s2 i, la varianza empírica (ver Ecuación (1.4)). La suma ponderada de cuadrados es
+
+y el valor de θ que minimiza W(θ) es el estimador de mínimos cuadrados ponderados de θ. El problema de estimar los parámetros en modelos heteroscedastic se trata más generalmente en el capítulo 3.

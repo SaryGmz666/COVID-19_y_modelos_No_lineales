@@ -1,0 +1,103 @@
+\documentclass{beamer} 
+\usetheme{Berkeley}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{ragged2e}
+\justifying
+\definecolor{antiquefuchsia}{rgb}{0.57, 0.36, 0.51}
+\usecolortheme[named=antiquefuchsia]{structure}
+
+\theoremstyle{definition} 
+
+\newtheorem*{dfn}{A Reasonable Definition}               
+
+\title{COVID-19 y Modelos No lineales}
+\author{Sarai E Gómez Ibarra} 
+\institute{Universidad Autónoma de Nuevo León \\ Facultad de Ciencias Físico - Matemáticas}
+\date{18 de Septiembre del 2020}
+
+\AtBeginSection[]
+{
+	\begin{frame} 
+	\frametitle{Contenido} 
+	\tableofcontents[currentsection]
+\end{frame}
+}
+
+\begin{document}
+
+\begin{frame} 
+\titlepage
+\end{frame}
+
+\section{Introducción}
+
+\begin{frame}{Introducción}
+
+La COVID‑19 es la enfermedad infecciosa causada por el coronavirus; dicha enfermedad tuvo origen en Wuhan (China) en diciembre de 2019. Actualmente la COVID‑19 es una pandemia que afecta a muchos países de todo el mundo.\\\\
+Este estudio tiene como objetivo el comparar los modelos Gompertz, Logístico y Normal, estimados con los datos arrojados de diferentes países, para validar cual es el desempeño que tiene cada uno de estos y así finalmente descubrir cual es el modelo que mejor se acople al comportamiento de la pandemia en los países afectados. \end{frame}
+
+\section{Teoría}
+
+\begin{frame}{Teoría}
+\textbf{DEF} Una función sigmoidea es una función real diferenciable y acotada que se define para todos los valores de entrada reales y tiene una derivada no negativa en cada punto.\\\\
+\textbf{DEF} La función de distribución acumulativa de una variable aleatoria de valor real es la función dada por X.
+    $$F_X(x)= P(X\leq x)$$
+\end{frame}
+\begin{frame}{Error Cuadrático Medio}
+    El Error Cuadrático Medio (MSE) de un estimador mide el promedio de los errores al cuadrado, es decir, la diferencia entre lo estimado y el valor real; Sea $\hat{Y}$ el vector de n predicciones y $Y$ el vector de los valores reales, entonces el MSE del predictor es:
+$$MSE = \frac{1}{n} \sum_{i=1}^n(\hat{Y_i}-Y_i)^2$$
+\end{frame}
+
+\begin{frame}{Raíz del Error Cuadrático Medio}
+    La Raíz del Error Cuadrático Medio (RMSE) es una medida mayormente usada para valores de muestra o población; nos ayuda a calcular la diferencia entre los valores predichos y los valores observados; se define como:
+$$RMSE = \sqrt{ \frac{1}{n} \sum_{i=1}^n(\hat{Y_i}-Y_i)^2}$$
+\end{frame}
+\begin{frame}{Error Absoluto Medio}
+    El Error Absoluto Medio de igual manera es una medida de diferencia entre dos variables continuas; normalmente se usa cuando los datos observados ($Y$) contienen valores atípicos, esta definido como:
+$$MAE = \frac{1}{n} \sum_{i=1}^n | \hat{Y_i}-Y_i |$$
+\end{frame}
+
+\begin{frame}{Modelos considerados}
+    Los modelos a elegir son funciones sigmoidales o bien funciones de distribución acumulada. Se escogen este tipo de funciones ya que las sigmoides tienen su dominio en todos los números reales, el valor de retorno aumenta monótonamente, por esto mismo se escogieron los siguientes modelos:
+\begin{enumerate}
+        \item Modelo Gompertz
+        \item Modelo Logístico
+        \item Modelo Normal
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Modelo Gompertz}
+La curva de Gompertz tiene nombre de su diseñador Benjamin Gompertz, el cual diseño el modelo para la Royal Society para detallar su ley de mortalidad humana. El modelo Gompertz esta definido como:
+        \begin{equation}
+            G(t)= \alpha e^{-\beta e^{- \kappa t}}
+        \end{equation}
+        \label{Gmpz}
+Donde:
+        \begin{itemize}
+            \item G(t) es el numero acumulado de casos confirmados en el tiempo t.
+            \item $\alpha$ corresponde a la asíntota, en este caso $\alpha$ estima el numero de casos al final de la epidemia.\\\\
+        \end{itemize}
+\end{frame}
+
+\begin{frame}{Brasil}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.8]{TablaErrorABrasil.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Alemania}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.8]{TablaErrorAAlemania.png}
+    \end{figure}
+\end{frame}
+
+\section{Concusión}
+
+\begin{frame}{Concusión}
+Nótese que el modelo Gompertz es el que tuvo un mejor desempeño en la mayoría de los países, por tanto, es recomendable usar el modelo Gompertz como primera opción para la modelación de la pandemia, en cambio también es importante hacer uso de los demás modelos mencionados ya que cada país tiene un comportamiento distinto ante la situación, estas variaciones pueden ser efecto de muchas cosas, como las medidas preventivas, el tiempo que duro la cuarentena, las bases económicas, entre otras cosas.
+\end{frame}
+
+\end{document}

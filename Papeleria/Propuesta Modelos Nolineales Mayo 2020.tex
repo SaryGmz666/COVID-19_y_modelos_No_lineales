@@ -1,0 +1,112 @@
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage{float}
+%\selectlanguage{spanish}
+\usepackage[utf8]{inputenc}
+\usepackage[toc,page]{appendix}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+%\usepackage{cite}
+\usepackage{geometry}
+\usepackage[numbers]{natbib}
+\usepackage{verbatim}
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\geometry{left=2.5cm,right=2.5cm,top=3cm,bottom=3cm,headheight=3mm}
+
+\title{\textbf{COVID-19 y Modelos Nolineales\\ (PLAN DE TRABAJO)}}
+\author{(Nombre de Estudiante)
+\\Universidad Aut\'onoma de Nuevo Le\'on (UANL)}
+
+\date{}	
+\begin{document}
+	\maketitle
+
+\begin{center}
+\abstractname{}\\
+\end{center}
+Presentamos una comparaci\'on del desempe\~no de varios modelos nolineales
+para ajustar datos de crecimiento de la epidemia COVID-19
+en varios pa\'ises. \\
+\noindent \textbf{Keywords}: Epidemiolog\'ia, Gompertz, Normal, Log\'istica,
+Sigmoide
+
+\tableofcontents
+
+
+
+\underline{\hspace{15cm}}
+
+
+\section{Objetivos}  \label{Obj}
+
+El crecimiento de la pandemia COVID-19,
+en diferentes pa\'ises presenta diferentes comportamientos, habiendo
+diferencias significativas en cuanto a las velocidades de crecimiento,
+tiempos de arranque y mesetas. Sin embargo, en t\'erminos muy generales,
+se distinguen varias fases comunes tales como, un periodo de arranque
+lento, una fase de crecimiento acelerado, algunas veces con tasas
+exponenciales, un periodo de crecimiento desacelerado y finalmente
+llegando a una  meseta con crecimiento nulo. Estas caracter\'isticas
+comunes pueden modelarse mediante curvas sigmoidales.
+
+\medskip
+
+El objetivo del presente trabajo es presentar una comparaci\'on
+de diferentes modelos nolineales que se han desarrollado en la literatura,
+particularmente para COVID-19. Los diferentes aspectos a desarrollar
+incluyen, pero no se limitan a:
+\begin{itemize}
+\item Caracterizaci\'on de los diferentes par\'ametros que definen a cada modelo.
+\item C\'odigo $R$ para el ajuste de modelos, as\'i como el c\'alculo
+de medidades de incertidumbre asociados al proceso de estimaci\'on.
+\item Adem\'as de los modelos Gompertz, Normal, Log\'istico, ?`Qu\'e
+otros modelos se han estudiado?.
+\item Los modelos de crecimiento tienen asociados, t\'ipicamente,
+una ecuaci\'on o ecuaciones diferenciales de las cuales son ellos son
+soluciones. Presentar estas ecuaciones.
+\item Mostrar la incorporaci\'on de covariables en el ajuste de los modelos.
+\end{itemize}
+
+
+
+\section{Entregables}  \label{Entregables}
+
+\begin{itemize}
+\item Reporte en latex
+\item C\'odigo $R$ comentado
+\item Presentaci\'on beamer con los resultados del estudio.
+\end{itemize}
+
+
+
+
+
+
+
+
+\section{Bibliograf\'ia}  \label{Bibliografia}
+
+
+\begin{itemize}
+\item Huet, S. \textit{et al.} (2004). Statistical Tools for Nonlinear Regression. Springer.  
+
+\item IHME COVID-19 forecasting team (2020). Forecasting COVID-19 impact on hospital bed-days, ICU-days, ventilator days
+and deaths by US state in the next 4 months. Report
+
+\item Prats, C. \textit{et al.} (2020) Analysis and prediction of COVID-19 for
+different regions and countries. Daily report 27-03-2020. UPC, BioComSC, CMCiB, 
+IGTP.  
+\end{itemize}
+
+
+
+
+
+
+
+
+\end{document}

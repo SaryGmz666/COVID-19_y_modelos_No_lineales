@@ -1,0 +1,449 @@
+\documentclass{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+
+\title{COVID-19 y Modelos No Lineales}
+\author{Sarai Elisabet Gómez Ibarra \\ Universidad Autónoma de Nuevo León \\ Facultad de Ciencias Físico - Matemáticas \\\\ Este estudio se realizó con el apoyo del proyecto de CB-15-252996 bajo\\ la supervisión de la Dra. Graciela González Farías }
+\date{Septiembre 2020}
+
+\begin{document}
+
+\maketitle
+\renewcommand{\abstractname}{Resumen}
+\begin{abstract}
+\begin{center}
+    Presentamos una comparación del desempeño de varios modelos no lineales para ajustar datos de crecimiento de la epidemia COVID-19 en varios países.    
+\end{center}
+\end{abstract}
+\renewcommand{\tableofcontentsname}{Contenido}
+\tableofcontents
+\section{Agradecimientos}
+Quiero agradecer primeramente a todos mis asesores; al Dr. Eduardo Cordero por instruirme en la estadística, al Dr. Fernando Camacho por creer en mi,  al Dr. Rogelio Ramos, Dra. Gaciela González y los demás instructores del CIMAT y al CONACYT por darme la oportunidad de formarme como investigador.
+\section{Introducción}
+La COVID‑19 es la enfermedad infecciosa causada por el coronavirus; dicha enfermedad tuvo origen en Wuhan (China) en diciembre de 2019. Actualmente la COVID‑19 es una pandemia que afecta a muchos países de todo el mundo.\\\\
+Este estudio tiene como objetivo el comparar los modelos Gompertz, Logístico y Normal, estimados con los datos arrojados de diferentes países, para validar cual es el desempeño que tiene cada uno de estos y así finalmente descubrir cual es el modelo que mejor se acople al comportamiento de la pandemia en los países afectados.\\\\
+Dentro del estudio se mantiene como base la utilización de tres modelos no lineales, para esto se toma en cuenta los datos de la pandemia causada por la COVID-19 arrojados en diferentes países.
+\section{Teoría}
+\textbf{DEF} Una función sigmoidea es una función real diferenciable y acotada que se define para todos los valores de entrada reales y tiene una derivada no negativa en cada punto.\\\\
+\textbf{DEF} La función de distribución acumulativa de una variable aleatoria de valor real es la función dada por X.
+    $$F_X(x)= P(X\leq x)$$\\
+\textbf{DEF} El Error Cuadrático Medio (MSE) de un estimador mide el promedio de los errores al cuadrado, es decir, la diferencia entre lo estimado y el valor real; Sea $\hat{Y}$ el vector de n predicciones y $Y$ el vector de los valores reales, entonces el MSE del predictor es:
+$$MSE = \frac{1}{n} \sum_{i=1}^n(\hat{Y_i}-Y_i)^2$$\\
+\textbf{DEF} La Raíz del Error Cuadrático medio (RMSE) es una medida mayormente usada para valores de muestra o población; nos ayuda a calcular la diferencia entre los valores predichos y los valores observados; se define como:
+$$RMSE = \sqrt{ \frac{1}{n} \sum_{i=1}^n(\hat{Y_i}-Y_i)^2}$$\\
+\textbf{DEF} El Error Absoluto Medio de igual manera es una medida de diferencia entre dos variables continuas; normalmente se usa cuando los datos observados ($Y$) contienen valores atípicos, esta definido como:
+$$MAE = \frac{1}{n} \sum_{i=1}^n | \hat{Y_i}-Y_i |
+$$\\
+\textbf{Teorema fundamental del calculo.} Sea $f$ una función continua en el intervalo cerrado $[a,b]$ y sea $g(x)$ cualquier función definida en $[a,b]$. Si $F$ es la función definida por:
+$$F(x)= \int_0^{g(x)} f(t) \mathrm{d}t$$
+entonces $F'(x)=f(g'(x)) \Longleftrightarrow \frac{d}{dx} \int_0^{g(x)} f(t) \mathrm{d}t = F(g(x))g'(x)$
+    \subsection{Modelos considerados}
+    Los modelos a elegir son funciones sigmoidales o bien funciones de distribución acumulada. Se escogen este tipo de funciones ya que las sigmoides tienen su dominio en todos los números reales, el valor de retorno aumenta monótonamente y normalmente la primer derivada tiene forma de campana. Por esto mismo se escogieron los siguientes modelos:
+    \begin{enumerate}
+        \item Modelo Gompertz
+        \item Modelo Logístico
+        \item Modelo Normal
+    \end{enumerate}
+        \subsubsection{Modelo Gompertz}
+        La curva de Gompertz tiene nombre de su diseñador Benjamin Gompertz, el cual diseño el modelo para la Royal Society para detallar su ley de mortalidad humana. El modelo Gompertz esta definido como:
+        \begin{equation}
+            Y_{ij} = G(t_{ij}, \theta_i)+ \varepsilon_{ij}\hspace{2cm}i= 1,\ldots,n\hspace{.5cm}j= 1, \ldots,n_{ij} 
+        \end{equation}
+        Donde $\varepsilon_{ij}$ es una variable aleatoria independiente y se distribuye $N(0,\sigma^2)$, $\theta_i$ tambien una variable aleatoria independiente y se distribuye $N(0, \Omega)$, $F(t_{ij}, \theta_i)$ es el modelo Gompertz; para este caso de estudio $i= 1, 2, 3$, esto es, el modelo $G(t_{ij}, \theta_i)$ tiene 3 parámetros a estimar, entonces $G(t_{ij}, \theta_i)$ es de la forma:
+        \begin{equation}
+            G(t)= \alpha e^{-\beta e^{- \kappa t}}
+        \end{equation}
+        Donde:
+        \begin{itemize}
+            \item G(t) es el numero acumulado de casos confirmados en el tiempo t.
+            \item $\alpha$ corresponde a la asíntota, en este caso $\alpha$ estima el numero de casos al final de la epidemia.\\\\
+        \end{itemize}
+        Ahora, si derivamos la ec. (2) nos arroja la curva que modela el número casos diarios confirmados en el tiempo $t$, donde la derivada queda de la siguiente manera:
+        \begin{equation}
+            g(t) =  \beta \kappa G(t) e^{- \kappa t} = \beta \kappa \alpha e^{-\beta e^{- \kappa t}} e^{- \kappa t}\\
+        \end{equation}
+        De las ecuaciones (2) y (3) podemos estimar datos de interés para la pandemia, los cuales son:
+        \begin{itemize}
+            \item El tiempo $t$ que corresponde al pico de la pandemia, o bien, el tiempo en el cual se espera la máxima incidencia diaria, lo obtenemos buscando el máximo global de la ec. (3), el cual es:
+            $$t_{max}= \frac{log(\beta)}{\kappa}$$
+            \item Cuantos casos se estiman para el tiempo $t_{max}$, es decir, cuantos casos se esperan para el pico; esto se estimaría de la siguiente manera:
+            $$g(t_{max})= \beta \kappa \alpha e^{-\beta e^{- \kappa t}} e^{- \kappa t_{max}} $$
+            \item Estimar el numero de casos acumulados al tiempo $t_{max}$, o bien, cuantos casos acumulados se esperan desde el tiempo 0 hasta el pico, esto se estima como $G(t_{max})$\\\\
+        \end{itemize}
+        Para estimar en que tiempo $t$ se tiene el 95\% de avance en la pandemia, se realiza el siguiente análisis:\\
+            
+            \hspace{1cm}Sea $G(t) = \alpha e^{-\beta e^{- \kappa t}}\hspace{1cm};\hspace{1cm} 0 \leq t < \infty$\\
+            
+            \hspace{1cm}Buscamos que $G(t) = 0.95 \alpha$\\
+            
+            \hspace{1cm}esto es,\hspace{.5cm} $\alpha e^{-\beta e^{- \kappa t}}= 0.95 \alpha$\\
+            
+            \hspace{1cm}$\Longrightarrow e^{-\beta e^{- \kappa t}}= 0.95$\\
+            
+            \hspace{1cm}$\Longrightarrow e^{- \kappa t} = \frac{- ln (.95)}{\beta}$\\
+            
+            \hspace{1cm} $\therefore t = \frac{-ln(\frac{- ln (.95)}{\beta})}{\kappa}$
+        
+        
+        \subsubsection{Modelo Logístico}
+        El Modelo de Regresión Logística fue publicado en 1844 por Pierre François, con el fin de estudiar el crecimiento de la población. el modelo se ha usado en estudios para relacionar el tiempo con la población, por ejemplo, el numero de especies (Y) con el tiempo (X). El modelo logístico es de la siguiente manera:
+        \begin{equation}
+            Y_{ij}= H(t_{ij}, \theta_{1j}) + \varepsilon_{ij})\hspace{2cm}i= 1,\ldots,n\hspace{.5cm}j= 1, \ldots,n_{ij}
+        \end{equation}
+        Donde:
+        \begin{itemize}
+            \item $\varepsilon_{ij}$ es una variable aleatoria independiente y $\varepsilon_{ij}  \thicksi N(0, \sigma_1^2$
+            \item $\theta_i$ tambien es una variable aleatoria independiente, la cual se distribuye $N(0, \Omega_1)$\\
+        \end{itemize}
+        Para este estudio $\theta_1i$ es de dimensión 3 y la función $ H(t_{ij}, \theta_{1j})$ esta definida como:
+        \begin{equation}
+            H(t)=\frac{\gamma_0}{1+\gamma_1 e^{-\gamma_2 t}}
+        \end{equation}
+        Donde:
+        \begin{itemize}
+            \item H(t) es el número acumulado de casos confirmados en el tiempo t.
+            \item $\gamma_0$ es el valor de crecimiento máximo, para este estudio $\gamma_0$ representa los casos predichos para el final de la pandemia.
+            \item $\gamma_2$ es la tasa de crecimiento logístico o la pendiente de la curva.\\
+        \end{itemize}
+        Al derivar la ec. (5) nos arroja la curva que modela los casos diarios en el tiempo t, la curva queda de la siguiente manera:
+        \begin{equation}
+            \frac{\gamma_0 \gamma_1 \gamma_2 e^{(-\gamma_2 t)}}{(1+\gamma_1 e^{-\gamma_2 t})^2}\\
+        \end{equation}
+        De las ecuaciones (5) y (6) podemos estimar datos interesantes para la pandemia, los cuales son:
+        \begin{itemize}
+            \item En que tiempo $t$ se encuentra la máxima incidencia diaria, esto se obtiene al buscar el punto máximo global de la ec. (6), el cual es:
+            $$t_{maxL}= \frac{ln(\gamma_1)}{\gamma_2}$$
+            \item Cuantos casos se estiman para el pico, esto se obtiene con:
+            $$h(t_{maxL})= \frac{\gamma_0 \gamma_1 \gamma_2 e^{(-\gamma_2 t_{maxL})}}{(1+\gamma_1 e^{-\gamma_2 t_{maxL}})^2} $$
+            \item Cuantos casos acumulados se esperan para la máxima incidencia diaria, esto se estima como $H(t_{maxL})$.\\
+        \end{itemize}
+        Ahora, para estimar en que valor $t$ se encuentra el 95\% de avance en la pandemia, se realiza el siguiente análisis:\\
+        
+        \hspace{1cm}Consideremos la función $H(t)=\frac{\gamma_0}{1+\gamma_1 e^{-\gamma_2 t}}\hspace{.5cm};\hspace{.5cm} 0 \leq t < \infty$\\
+        
+        \hspace{1cm}Buscamos el valor $t^*$ que nos arroje $H(t^*)= 0.95 \gamma_0$\\
+        
+        \hspace{1cm}esto es, $\frac{\gamma_0}{1+\gamma_1 e^{-\gamma_2 t^*}}= 0.95 \gamma_0$ \\
+        
+        \hspace{1cm} $\Longrightarrow \frac{1}{1+\gamma_1 e^{-\gamma_2 t^*}}= 0.95$\\
+        
+        \hspace{1cm} $\Longrightarrow \frac{20}{19}-1 = \gamma_1 e^{-\gamma_2 t^*}$\\
+        
+        \hspace{1cm} $\Longrightarrow ln(\frac{\frac{1}{19}}{\gamma_1})= - \gamma_2 t^*$\\
+        
+        \hspace{1cm} $\therefore t^* = \frac{- ln(\frac{\frac{1}{19}}{\gamma_1})}{\gamma_2}$
+        \subsubsection{Modelo Normal}
+        El modelo normal es la distribución normal acumulada con modificaciones, este modelo asume que los casos acumulados siguen una función de error gaussiana parametrizada, la cual esta definida como:
+        \begin{equation}
+            N(t)= \frac{p}{2} (\Psi(\alpha(t-\beta)))= \frac{p}{2} \left(  1+\frac{2}{\sqrt{\pi}} \int_0^{\alpha(t-\beta)} exp(-\tau^2) \mathrm{d}\tau \right)
+        \end{equation}
+        Donde:
+        \begin{itemize}
+            \item la función $\Psi$ es la función de error gaussiana (escrita explícitamente arriba).
+            \item $\frac{p}{2}$ es el valor de crecimiento máximo, o bien, la estimación de cuantos casos se esperan para el final de la pandemia.
+            \item $\alpha$ es un parámetro de crecimiento.
+            \item $\beta$ es el tiempo en el que la tasa de aumento es máxima.\\
+        \end{itemize}
+        Para conseguir la curva que modele los casos diarios, derivamos la ec. (7) con el primer teorema fundamental del calculo, el cual nos da:
+        \begin{equation}
+            n(t)= \frac{p \alpha}{2\sqrt{\pi}}\left( e^{\frac{-1}{2}\alpha^2 (t- \beta)^2} \right)
+        \end{equation}
+        De las ecuaciones (7) y (8), se estiman información de interés, los cuales son:
+        \begin{itemize}
+            \item Para estimar el tiempo $t$ en el cual se encuentre la incidencia máxima de casos diarios, basta con estimar el parámetro $\beta$ 
+            \item Cuantos casos se esperan para el pico, esto se calcula evaluando $\beta$ en la ec. (8).
+            \item Cuantos casos acumulados se esperan en el tiempo $t=\beta$, esto se obtiene evaluando $\beta$ en la ec. (7).\\
+        \end{itemize}
+        Para estimar en que tiempo $t$ se encuentra el 95\% de avance en la pandemia, se realiza lo siguiente:
+        
+        \hspace{1cm}Consideremos la función $N(t)=\frac{p}{2} (\Psi(\alpha(t-\beta)))\hspace{.5cm};\hspace{.5cm} 0 \leq t < \infty$\\
+        
+        \hspace{1cm} Buscamos el valor $t'$ que nos arroje $N(t')= \frac{0.95p}{2}$\\
+        
+        \hspace{1cm} esto es, $\frac{p}{2} (\Psi(\alpha(t'-\beta)))= \frac{0.95p}{2} $\\
+        
+        \hspace{1cm} $\Longrightarrow \Psi(\alpha(t'-\beta)) = 0.95$\\
+        
+        \hspace{1cm} $\Longrightarrow \alpha(t'-\beta) = qnorm(0.95)\hspace{3cm} (\star)$\\
+        
+        \hspace{1cm} $\Longrightarrow t'= \beta + \frac{1}{\alpha} qnorm(0.95)$\\
+        
+        $(\star) qnorm$ es una función que determina el cuantil de una probabilidad dada.
+        \subsection{Estimación de los parámetros}
+        Para realizar la estimación de los parámetros se utilizaron las funciones nls y nlsLM, las cuales son funciones que realizan las estimaciones por el método de mínimos cuadrados no lineales.\\\\
+        La función nlsLM en especial, realiza la estimación por mínimos cuadrados no lineales con el método de  Levenberg-Marquardt, el cual es un algoritmo interactivo semejante a los métodos de máximo descenso y el método de Gauss-Newton; esto es porque, cuando la solución se encuentra lejos del mínimo local el algoritmo se comporta como el método de máximo descenso y cuando la solución esta cercana al mínimo local, el método se asemeja al método de Gauss-Newton.\\\\
+        Levenberg-Marquardt es una buena alternativa para evitar los problemas que le método Gauss-Newton presenta cuando la matriz Jacobiana es no singular.
+\section{Resultados}
+    En esta sección veremos los modelos resultantes para cada uno de los países seleccionados, los cuales son:
+    \begin{enumerate}
+        \item México
+        \item Egipto
+        \item Rusia
+        \item Brasil
+        \item Alemania
+    \end{enumerate}
+    Los cálculos y gráficos se realizaron en RStudio. 
+    \subsection{Modelos para México}
+            \subsubsection{Modelo Gompertz}
+        La estimación de los parámetros se realizaron con los datos hasta el 11 de septiembre del 2020:
+        \begin{center}
+            $\alpha = 1,046,175$\\
+            $\beta = 11.36096$\\
+            $\kappa = 0.01627938$
+        \end{center}
+        Datos importantes de la pandemia:
+        \begin{enumerate}
+        \addtolength{\itemsep}{-2mm}
+            \item Se estima que al final de la pandemia se tendrían $\alpha = 1,046,175$ casos acumulados.
+            \item Se predice que el pico de la pandemia fue el día 26 de Julio del 2020.
+            $$t_{max}= \frac{ln(\beta)}{\kappa}= 149 = 2020-07-26$$
+            \item El numero de casos acumulados que se esperaban en el pico (2020-07-26) es
+            $$G(149)= 383,113$$
+            \item Se estima que el 95\% de avance de la pandemia sea el 2021-01-25
+            $$t = \frac{-ln(\frac{- ln (.95)}{\beta})}{\kappa} \hspace{1cm}\Longrightarrow t= 322 = 2021-01-25$$\\
+        \end{enumerate}
+        A continuación, se muestran los gráficos de la modelación Gompertz
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.65]{GompertzCasosA.png}
+            \caption{Modelo Gompertz para los casos acumulados en México}
+        \end{figure}
+        \newpage
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.65]{GompertzCasos.png}
+            \caption{Modelo Gompertz para los casos diarios en México}
+        \end{figure}
+        \subsubsection{Modelo Logístico}
+        La estimación de los parámetros se realizaron con los datos hasta el 11 de septiembre del 2020:
+        \begin{center}
+            $\gamma_0 = 731,650$\\
+            $\gamma_1 = 261.2094$\\
+            $\gamma_2 = 0.03812863 $
+        \end{center}
+        Datos importantes de la pandemia:
+        \begin{enumerate}
+        \addtolength{\itemsep}{-2mm}
+            \item Se estima que al final de la pandemia se tendrían $\gamma_0 = 731,650$ casos acumulados.
+            \item Se predice que el pico de la pandemia fue el día 23 de Julio del 2020.
+            $$t_{maxL}= \frac{ln(\gamma_1)}{\gamma_2}= 146 = 2020-07-23$$
+            \item El numero de casos acumulados que se esperaban en el pico (2020-07-23) es
+            $$H(146)= 366,092$$
+            \item Se estima que el 95\% de avance de la pandemia sea el 2020-10-08
+            $$t^* = \frac{- ln(\frac{\frac{1}{19}}{\gamma_1})}{\gamma_2} \hspace{1cm}\Longrightarrow t^*= 223 = 2020-10-08$$\\
+        \end{enumerate}
+        A continuación, se muestran los gráficos de la modelación Logística
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.55]{LogisticoCasosA.png}
+            \caption{Modelo Logístico para los casos acumulados en México}
+        \end{figure}
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.55]{LogisticoCasos.png}
+            \caption{Modelo Logístico para los casos diarios en México}
+        \end{figure}
+        \subsubsection{Modelo Normal}
+        La estimación de los parámetros se realizaron con los datos hasta el 11 de septiembre del 2020:
+        \begin{center}
+            $p = 1,510,456$\\
+            $\alpha = 0.02194987$\\
+            $\beta = 147.9341$
+        \end{center}
+        Datos importantes de la pandemia:
+        \begin{enumerate}
+        \addtolength{\itemsep}{-2mm}
+            \item Se estima que al final de la pandemia se tendrían $\frac{p}{2}= 755,228$ casos acumulados.
+            \item Se predice que el pico de la pandemia fue el día 23 de Julio del 2020.
+            $$t_{maxL}= \frac{ln(\gamma_1)}{\gamma_2}= 148 = 2020-07-25$$
+            \item El numero de casos acumulados que se esperaban en el pico (2020-07-25) es
+            $$H(148)= 378,050$$
+            \item Se estima que el 95\% de avance de la pandemia sea el 2020-10-08
+            $$t'= \beta + \frac{1}{\alpha} qnorm(0.95) \hspace{1cm}\Longrightarrow t'= 223 = 2020-10-08$$\\
+        \end{enumerate}
+        A continuación, se muestran los gráficos del modelo Normal
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.55]{NormalCasosA.png}
+            \caption{Modelo Normal para los casos acumulados en México}
+        \end{figure}
+        \newpage
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.65]{NormalCasos.png}
+            \caption{Modelo Normal para los casos diarios en México}
+        \end{figure}
+    \subsection{Modelos para Egipto}
+    Las estimaciones de los parámetros se realizaron con los datos hasta el 11 de septiembre del 2020:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.7]{DatosEgipto.png}
+        \caption{Datos relevantes de la pandemia en Egipto}
+    \end{figure} \newpage 
+    Modelo Gompertz:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{GmpzEgipto.png}
+        \caption{Modelo Gompertz para casos acumulado y modelo Gompertz para casos diarios en Egipto}
+    \end{figure}\\
+    Modelo Logístico:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{LogEgipto.png}
+        \caption{Modelo Logístico para casos acumulado y modelo Logístico para casos diarios en Egipto}
+    \end{figure}
+    \newpage
+    Modelo Normal:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{NomEgipto.png}
+        \caption{Modelo Normal para casos acumulado y modelo Normal para casos diarios en Egipto}
+    \end{figure}
+    \subsection{Modelos para Rusia}
+    Las estimaciones de los parámetros se realizaron con los datos hasta el 11 de septiembre del 2020:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics{DatosRusia.png}
+        \caption{Datos relevantes de la pandemia en Rusia}
+    \end{figure} \newpage 
+    Modelo Gompertz:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{GmpzRusia.png}
+        \caption{Modelo Gompertz para casos acumulado y modelo Gompertz para casos diarios en Rusia}
+    \end{figure}\\
+    Modelo Logístico:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{LogRusia.png}
+        \caption{Modelo Logístico para casos acumulado y modelo Logístico para casos diarios en Rusia}
+    \end{figure} \newpage 
+    Modelo Normal:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{NomRusia.png}
+        \caption{Modelo Normal para casos acumulado y modelo Normal para casos diarios en Rusia}
+    \end{figure}
+    \subsection{Modelos para Brasil}
+    Las estimaciones de los parámetros se realizaron con los datos hasta el 11 de septiembre del 2020:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics{DatosBrasil.png}
+        \caption{Datos relevantes de la pandemia en Brasil}
+    \end{figure} \newpage 
+    Modelo Gompertz:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{GmpzBrasil.png}
+        \caption{Modelo Gompertz para casos acumulado y modelo Gompertz para casos diarios en Brasil}
+    \end{figure} \\
+    Modelo Logístico:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{LogBrasil.png}
+        \caption{Modelo Logístico para casos acumulado y modelo Logístico para casos diarios en Brasil}
+    \end{figure} \newpage 
+    Modelo Normal:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{NomBrasil.png}
+        \caption{Modelo Normal para casos acumulado y modelo Normal para casos diarios en Brasil}
+    \end{figure}
+    \subsection{Modelos para Alemania}
+    Las estimaciones de los parámetros se realizaron con los datos hasta el 11 de septiembre del 2020:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics{DatosAlemania.png}
+        \caption{Datos relevantes de la pandemia en Alemania}
+    \end{figure} \newpage 
+    Modelo Gompertz:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{GmpzAlemania.png}
+        \caption{Modelo Gompertz para casos acumulado y modelo Gompertz para casos diarios en Alemania}
+    \end{figure} \\
+    Modelo Logístico:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{LogAlemania.png}
+        \caption{Modelo Logístico para casos acumulado y modelo Logístico para casos diarios en Alemania}
+    \end{figure}
+    \newpage 
+    Modelo Normal:\\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{NomAlemania.png}
+        \caption{Modelo Normal para casos acumulado y modelo Normal para casos diarios en Alemania}
+    \end{figure}
+\section{Comparación de los modelos}
+La comparación de modelos a través de procesos estocásticos es una tarea muy complicada, aun mas si los modelos tienen diferente tipo de parámetros; Por tal motivo se optó por realizar la comparación de los modelos midiendo el MSE de los casos acumulados con los casos predichos por el modelo. Aunque esto no sea lo mejor para realizar las comparaciones, nos da buena información para saber cuál modelo se ajusta mejor, esto es, de los tres modelos considerados, el que tenga menor MSE, RMSE o MSA nos indica que ajusta mejor los datos a comparación de los demás modelos considerados.
+    \subsection{Comparación para México}
+    Ah simple vista podemos ver que los tres modelos se ajustan bien para México, pero al ver las gráficas de los casos diarios, es notable que el comportamiento después del pico tiene una caída pesada, por tal motivo es coherente pensar que el modelo Gompertz es el que se ajusta mejor a los datos.\\\\
+    Se realizan los cálculos de cada uno de las medidas de los errores y nos arroja lo siguiente:
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.8]{TablaErrorA.png}
+    \end{figure}\\ \newpage
+    Esto comprueba la hipótesis mencionada anteriormente, ya que tanto el MSE, RMSE y MAE del modelo Gompertz son menores a la de los otros dos modelos. Entonces decimos que el Modelo Gompertz genera menor error y por tanto es el modelo que genera mayor desempeño en México a comparación de los Modelos Logístico y Normal.
+    \subsection{Comparación para Egipto}
+    Egipto es un país ubicado en el extremo noreste de África; Egipto tiene un clima desértico, su territorio abarca 1,001,450 $km^2$ de superficie, con una población de 96.980.000 personas (Calculo realizado el 2018).\\\\
+    Al ver los datos diarios y acumulados, es notorio que Egipto tubo un rápido crecimiento en los casos diarios y al llegar al pico, el descenso es semejante al crecimiento, por tal motivo es factible pensar que el modelo logístico o normal serian buenos para ajustar el modelo, ya que ambos modelos son simétricos con respecto al pico.\\\\
+    Al realizar los callos de las medidas de los errores nos arroja los siguientes datos:
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.8]{TablaErrorAEgipto.png}
+    \end{figure}\\
+    El Modelo Logístico es el que tiene menor MSE, RMSE y MAE, esto es, el modelo que genera menor índice de error es el Logístico, por tanto, el modelo Logístico es el que tiene un mejor desempeño a comparación de los modelos Gompertz y Normal.
+    \subsection{Comparación para Rusia}
+    Rusia es un país que se extiende en el norte de Eurasia, con una superficie de 17,098,242 $km^2$ de territorio, con una población de 146,800,000 personas (calculado al 2018), por su extenso territorio, Rusia tiene una gran variedad de climas, que por lo general predomina el clima continental.\\\\
+    En Rusia el COVID-19 tuvo un crecimiento acelerado, al llegar al pico el descenso es pesado, por tal motivo se espera que el modelo Gompertz sea el que mejor lo estime.\\\\
+    Las métricas del error para cada modelo son las siguientes:  
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.8]{TablaErrorARusia.png}
+    \end{figure}\\ \newpage
+    En efecto el Modelo Gompertz es el modelo que genero menor MSE, RMSE y MAE, por tanto decimos que el Modelo Gompertz es el que tiene mejor desempeño a comparación del modelo logístico y normal, sin embargo, notamos que el modelo Gompertz no es la mejor opción, ya que la cola derecha es mucho más pesada que las colas generadas por el Modelo Gompertz, había que buscar otro modelo o quizá mezclas de modelos.
+    \subsection{Comparación para Brasil}
+    Brasil es un país ubicado en América del sur, con una superficie de 8,5 millones de $km^2$ con una población de 207,999,646 personas (calculado el 2016), el clima es mayormente tropical.\\\\
+    Las métricas del error para cada modelo son las siguientes:
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.8]{TablaErrorABrasil.png}
+    \end{figure}\\
+    Por el tipo de datos en Brasil no es fácil ver cual modelo podría ajustarse mejor, ya que tiene muchos cambios significativos en los casos diarios; al realizar los cálculos de las métricas del error vemos que el que tiene menor MSE, RMSE y MAE, es el modelo Gompertz, por tanto, el modelo Gompertz es el que tiene mejor desempeño para Brasil.
+    \subsection{Comparación para Alemania}
+    Alemania está ubicado en Europa con un territorio de 357,022 $km^2$, Alemania tiene una población de 83,166,711 habitantes (conteo realizado el 2019), con un clima mayormente templado.\\\\
+    Al ver los datos en Alemania es notorio ver el crecimiento es exponencial, llega al pico y el descenso es pesado, también es importante recalcar que cuando está por concluir el descenso, hay un aumento en los casos diarios.\\\\
+    Las métricas del error para cada modelo son las siguientes:
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.8]{TablaErrorAAlemania.png}
+    \end{figure}\\
+    El modelo Gompertz es el que arroja los valores mínimos en las métricas del error, por tanto decimos que el modelo Gompertz es el que tiene mejor desempeño para Alemania, sin embargo, aunque el modelo Gompertz nos arroje los valores mínimos, es importante recalcar el aumento en los nuevos casos, por tal motivo es recomendable realizar mezclas de modelos para tener un mejor panorama de la pandemia en Alemania.
+\section{Conclusiones}
+Después de contrastar los modelos con los respectivos datos de cada uno de los países, podemos concluir particularmente para cada uno de ellos.\\\\
+En el caso de México el modelo Gompertz es el que tiene un mayor desempeño con un $MAE = 1625.118$ a comparación del modelo Logístico que arrojo un $MAE = 6250.701$ y el modelo Normal con un $MAE = 2443.945$.\\\\
+En cambio, en Egipto es notorio que del inicio de la pandemia al pico tuvo un crecimiento acelerado, llega al pico y el descenso es semejante al acenso; por tanto es razonable el resultado, el modelo que tiene el mejor desempeño es el modelo Logístico con un $MAE = 414.5745$ a comparación del Gompertz con un $MAE = 1680.521$ y el Normal con $MAE = 752.739$, pero es importante recalcar que le modelo Normal también es aceptable para los datos, esto es por la naturaleza de ambos modelos que son simétricos.\\\\
+En Rusia el modelo que tuvo el mejor desempeño es el Gompertz con un $MAE = 12384.46 $ a comparación del logístico con un $MAE = 27771.95$ y del normal con $MAE = 22894.85$; es importante observar que, aunque el modelo Gompertz tiene un buen desempeño habría que buscar algún otro modelo que tenga un descenso más lento que el Gompertz.\\\\
+En el caso de Brasil también el modelo Gompertz fue el que arrojo un mejor desempeño con un $MAE = 10991.81$ a comparación del logístico con $MAE = 50541.51$ y del normal con $MAE = 25270$.\\\\
+El modelo que tiene un mejor desempeño para Alemania es el Gompertz con un $MAE = 11382.71$ a comparación del Logístico con un $MAE = 13903.18$ y del normal con $MAE = 13864.07$. A comparación de los demás países Alemania ya se encontraba a punto de concluir la pandemia según las predicciones de los modelos, en cambio se presenta un aumento en los casos, por tal motivo es recomendable hacer uso de algún otro modelo o mezclas de modelos.\\\\
+Nótese que el modelo Gompertz es el que tuvo un mejor desempeño en la mayoría de los países, por tanto, es recomendable usar el modelo Gompertz como primera opción para la modelación de la pandemia, en cambio también es importante hacer uso de los demás modelos mencionados ya que cada país tiene un comportamiento distinto ante la situación, estas variaciones pueden ser efecto de muchas cosas, como las medidas preventivas, el tiempo que duro la cuarentena, las bases económicas, entre otras cosas.
+
+\renewcommand{\refname}{Bibliografía}
+\begin{thebibliography}{}
+\bibitem{} Prats, C. et al. (2020) Analysis and prediction of COVID-19 for different regions and countries. Daily report 27-03-2020. UPC, BioComSC, CMCiB, IGTP.
+\bibitem{} IHME COVID-19 forecasting team (2020). Forecasting COVID-19 impact on hospital beddays, ICU-days, ventilator days and deaths by US state in the next 4 months. Report.
+\bibitem{} Huet, S. et al. (2004). Statistical Tools for Nonlinear Regression. Springer.
+\bibitem{} Michael H. Kutner, Christopher J. Nachtsheim. (2005). Applied Linear Statistical Models. New York: McGraw-Hill Irwin.
+\bibitem{} Cornejo-Zúñiga, Ó.; Rebolledo-Vega, R. (2016). Estimación de parámetros en modelos no lineales: algoritmos y aplicaciones. Revista EIA, 13(25), enero-junio, pp. 81-98. [Online]. Disponible en: DOI: http:/dx.doi.org/10.14508/reia.2016.13.25.81-98
+\bibitem{} Organización Mundial de la Salud (2020). Preguntas y respuestas sobre la enfermedad por coronavirus (COVID-19), de Organización Mundial de la Salud Sitio web: https://www.who.int/es/emergencies/diseases/novel-coronavirus-2019/advice-for-public/q-a-coronaviruses
+\end{thebibliography}
+\end{document}
